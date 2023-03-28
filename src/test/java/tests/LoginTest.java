@@ -17,15 +17,9 @@ public class LoginTest extends OurDriverManager {
     String kdsPassword = "KDSLogin#2";
     String venueName = "Automation_2021";
     String kdsDevice = "POS4";
-    MobileElement imgTray = driver.findElementById("developer_mode");
-    MobileElement drpServers = driver.findElementById("android:id/text1");
-    MobileElement btnLogin = driver.findElementById("submitButton");
-    MobileElement txtUsername = driver.findElementById("dialog_login_username");
-    MobileElement txtPassword = driver.findElementById("dialog_login_password");
-    MobileElement btnSubmit = driver.findElementById("submitButton");
-    MobileElement pnlVenues = driver.findElementById("android:id/parentPanel");
+
+    //MobileElement pnlVenues = driver.findElementById("android:id/parentPanel");
     //By buttonLogin = By.id("com.vendsy.tray.pos:id/loginButton");
-    WebElement selDevices = driver.findElementById("kdsList");
 
     @Test
     public void ableToLogin() {
@@ -33,9 +27,9 @@ public class LoginTest extends OurDriverManager {
         driver.rotate(ScreenOrientation.LANDSCAPE);
         driver.activateApp("com.vendsy.tray");
 
-        LoginTest loginTest = new LoginTest();
+        //LoginTest loginTest = new LoginTest();
 
-        loginTest.clickTrayImage().selectServer(hostName).clickLoginButton()
+        clickTrayImage().selectServer(hostName).clickLoginButton()
                 .loginToKDS(kdsUsername, kdsPassword).selectVenueInVenueList(venueName)
                 .selectDevice(kdsDevice);
     }
@@ -43,6 +37,7 @@ public class LoginTest extends OurDriverManager {
 
     public LoginTest clickTrayImage() {
         Utils.sleep(5000);
+        MobileElement imgTray = driver.findElementById("developer_mode");
         for (int i = 1; i <= 5; i++)
             imgTray.click();
         return this;
@@ -50,6 +45,7 @@ public class LoginTest extends OurDriverManager {
 
     public LoginTest selectServer(String serverName) {
         Utils.sleep(5000);
+        MobileElement drpServers = driver.findElementById("android:id/text1");
         drpServers.click();
         MobileElement e = driver.findElementByXPath(SERVER_NAME.replace("<serverName>", serverName));
         e.click();
@@ -59,12 +55,16 @@ public class LoginTest extends OurDriverManager {
 
     public LoginTest clickLoginButton() {
         Utils.sleep(5000);
+        MobileElement btnLogin = driver.findElementById("submitButton");
         btnLogin.click();
         return this;
     }
 
     public LoginTest loginToKDS(String username, String password) {
         Utils.sleep(5000);
+        MobileElement txtUsername = driver.findElementById("dialog_login_username");
+        MobileElement txtPassword = driver.findElementById("dialog_login_password");
+        MobileElement btnSubmit = driver.findElementById("submitButton");
         txtUsername.sendKeys(username);
         txtPassword.sendKeys(password);
         btnSubmit.click();
@@ -80,6 +80,7 @@ public class LoginTest extends OurDriverManager {
 
     public LoginTest selectDevice(String deviceName) {
         Utils.sleep(5000);
+        WebElement selDevices = driver.findElementById("kdsList");
         Select select = new Select(selDevices);
         select.selectByVisibleText(deviceName);
         return this;
