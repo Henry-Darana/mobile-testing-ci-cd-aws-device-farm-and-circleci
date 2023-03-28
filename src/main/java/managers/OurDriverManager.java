@@ -22,7 +22,7 @@ public class OurDriverManager {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         //desiredCapabilities.setCapability("autoGrantPermissions", "true");
         driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @AfterSuite(alwaysRun = true)

@@ -2,7 +2,6 @@ package tests;
 
 import io.appium.java_client.MobileElement;
 import managers.OurDriverManager;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
@@ -26,6 +25,7 @@ public class LoginTest extends OurDriverManager {
         driver.activateApp("com.vendsy.tray.pos");
         //driver.rotate(ScreenOrientation.LANDSCAPE);
         //driver.activateApp("com.vendsy.tray");
+        Utils.sleep(5000);
         driver.switchTo().alert().accept();
 
         clickTrayImage().selectServer(hostName).clickLoginButton()
