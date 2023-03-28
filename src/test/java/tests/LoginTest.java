@@ -26,7 +26,7 @@ public class LoginTest extends OurDriverManager {
         //driver.rotate(ScreenOrientation.LANDSCAPE);
         //driver.activateApp("com.vendsy.tray");
         Utils.sleep(5000);
-        driver.activateApp("com.vendsy.tray.pos");
+        //driver.activateApp("com.vendsy.tray.pos");
         //driver.switchTo().alert().accept();
 
         clickTrayImage().selectServer(hostName).clickLoginButton()
