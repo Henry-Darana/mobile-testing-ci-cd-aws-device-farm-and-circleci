@@ -3,11 +3,8 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="Login Test">
         <classes>
-            <class name="tests.LoginTest">
-                <methods>
-                    <include name="ableToLogin"/>
-                </methods>
-            </class>
+            <class name="managers.OurDriverManager"></class>
+            <class name="tests.LoginTest"></class>
         </classes>
     </test>
 </suite>
