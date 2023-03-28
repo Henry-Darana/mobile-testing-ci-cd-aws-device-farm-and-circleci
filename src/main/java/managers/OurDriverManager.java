@@ -20,7 +20,7 @@ public class OurDriverManager {
         final String urlRemote = "http://127.0.0.1:4723/wd/hub";
         URL url = new URL(urlRemote);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability("autoGrantPermissions", "true");
+        //desiredCapabilities.setCapability("autoGrantPermissions", "true");
         driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
