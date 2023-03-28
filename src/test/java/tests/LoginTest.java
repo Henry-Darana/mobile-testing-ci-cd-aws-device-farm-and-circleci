@@ -25,9 +25,7 @@ public class LoginTest extends OurDriverManager {
     public void ableToLogin() {
         //driver.activateApp("com.vendsy.tray.pos");
         driver.rotate(ScreenOrientation.LANDSCAPE);
-        driver.activateApp("com.vendsy.tray");
-
-        //LoginTest loginTest = new LoginTest();
+        //driver.activateApp("com.vendsy.tray");
 
         clickTrayImage().selectServer(hostName).clickLoginButton()
                 .loginToKDS(kdsUsername, kdsPassword).selectVenueInVenueList(venueName)
