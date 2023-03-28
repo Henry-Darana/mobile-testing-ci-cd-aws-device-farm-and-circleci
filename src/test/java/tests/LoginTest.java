@@ -2,6 +2,7 @@ package tests;
 
 import io.appium.java_client.MobileElement;
 import managers.OurDriverManager;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
@@ -29,7 +30,8 @@ public class LoginTest extends OurDriverManager {
     @Test
     public void ableToLogin() {
         //driver.activateApp("com.vendsy.tray.pos");
-        driver.activateApp("com.vendsy.tray");
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+        //driver.activateApp("com.vendsy.tray");
 
         clickTrayImage().selectServer(hostName).clickLoginButton()
                 .loginToKDS(kdsUsername, kdsPassword).selectVenueInVenueList(venueName)
