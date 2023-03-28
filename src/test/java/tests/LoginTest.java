@@ -4,6 +4,7 @@ import io.appium.java_client.MobileElement;
 import managers.OurDriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Test;
 import utils.Utils;
 
 public class LoginTest extends OurDriverManager {
@@ -25,6 +26,7 @@ public class LoginTest extends OurDriverManager {
     //By buttonLogin = By.id("com.vendsy.tray.pos:id/loginButton");
     WebElement selDevices = driver.findElementById("kdsList");
 
+    @Test
     public void ableToLogin() {
         driver.activateApp("com.vendsy.tray.pos");
 
