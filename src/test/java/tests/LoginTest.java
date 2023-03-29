@@ -27,7 +27,7 @@ public class LoginTest extends OurDriverManager {
 
         Utils.sleep(5000);
         driver.rotate(ScreenOrientation.LANDSCAPE);
-        Utils.sleep(5000);
+        //Utils.sleep(5000);
         driver.activateApp("com.vendsy.tray");
         MobileElement btnAllow = driver.findElementById("com.android.packageinstaller:id/permission_allow_button");
         btnAllow.click();
