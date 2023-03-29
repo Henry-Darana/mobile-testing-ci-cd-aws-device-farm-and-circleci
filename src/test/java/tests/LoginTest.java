@@ -2,6 +2,7 @@ package tests;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
@@ -19,7 +20,7 @@ public class LoginTest {
     public static final String SERVER_NAME = "//android.widget.CheckedTextView[contains(@text, '<serverName>')]";
     public static final String VENUE_NAME = "//android.widget.TextView[contains(@text, '<venueName>')]";
     public static AndroidDriver<MobileElement> driver;
-    String hostName = "https://hq-qa.vendsy.com/";
+    String hostName = "https://qa.vendsy.com/";
     String kdsUsername = "qa_automation_kds_login_2@gmail.com";
     String kdsPassword = "KDSLogin#2";
     String venueName = "Automation_2021";
@@ -56,6 +57,8 @@ public class LoginTest {
 
         Utils.sleep(2000);
         driver.activateApp("com.vendsy.tray.pos");
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+
 
         clickTrayImage().selectServer(hostName).clickLoginButton()
                 .loginToKDS(kdsUsername, kdsPassword).selectVenueInVenueList(venueName)
