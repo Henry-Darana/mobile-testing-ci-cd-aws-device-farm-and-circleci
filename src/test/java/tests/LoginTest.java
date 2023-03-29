@@ -23,9 +23,10 @@ public class LoginTest extends OurDriverManager {
     @Test
     public void ableToLogin() {
 
-        //driver.rotate(ScreenOrientation.LANDSCAPE);
+
         Utils.sleep(5000);
-        //driver.activateApp("com.vendsy.tray");
+        driver.activateApp("com.vendsy.tray");
+        driver.rotate(ScreenOrientation.LANDSCAPE);
         //driver.activateApp("com.vendsy.tray.pos");
         //driver.switchTo().alert().accept();
 
