@@ -21,6 +21,7 @@ public class OurDriverManager {
         URL url = new URL(urlRemote);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("autoGrantPermissions", "true");
+        desiredCapabilities.setCapability("orientation", "LANDSCAPE");
         driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
