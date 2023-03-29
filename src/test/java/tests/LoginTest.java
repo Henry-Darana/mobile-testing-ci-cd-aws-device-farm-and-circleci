@@ -95,14 +95,14 @@ public class LoginTest {
     }
 
     public LoginTest selectVenueInVenueList(String venueName) {
-        Utils.sleep(2000);
+        Utils.sleep(10000);
         MobileElement e = driver.findElementByXPath(VENUE_NAME.replace("<venueName>", venueName));
         e.click();
         return this;
     }
 
     public LoginTest selectDevice(String deviceName) {
-        Utils.sleep(2000);
+        Utils.sleep(10000);
         WebElement selDevices = driver.findElementById("kdsList");
         Select select = new Select(selDevices);
         select.selectByVisibleText(deviceName);
