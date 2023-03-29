@@ -3,7 +3,6 @@
 <suite name="All Test Suite">
     <test name="Login Test">
         <classes>
-            <class name="managers.OurDriverManager"></class>
             <class name="tests.LoginTest"></class>
         </classes>
     </test>
