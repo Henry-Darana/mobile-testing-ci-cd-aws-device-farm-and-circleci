@@ -41,7 +41,7 @@ public class LoginTest {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait = new WebDriverWait(driver, Duration.ofMillis(30000));
     }
 
     @AfterSuite
