@@ -2,7 +2,6 @@ package tests;
 
 import io.appium.java_client.MobileElement;
 import managers.OurDriverManager;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
@@ -26,14 +25,11 @@ public class LoginTest extends OurDriverManager {
 
 
         Utils.sleep(5000);
-        driver.rotate(ScreenOrientation.LANDSCAPE);
+        //driver.rotate(ScreenOrientation.LANDSCAPE);
         //Utils.sleep(5000);
         driver.activateApp("com.vendsy.tray");
-        MobileElement btnAllow = driver.findElementById("com.android.packageinstaller:id/permission_allow_button");
-        btnAllow.click();
-        btnAllow.click();
-        btnAllow.click();
-        btnAllow.click();
+        //MobileElement btnAllow = driver.findElementById("com.android.packageinstaller:id/permission_allow_button");
+        //btnAllow.click();
         //driver.activateApp("com.vendsy.tray.pos");
         //driver.switchTo().alert().accept();
 
