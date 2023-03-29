@@ -2,10 +2,13 @@ package tests;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -13,6 +16,7 @@ import utils.Utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class LoginTest {
@@ -20,6 +24,7 @@ public class LoginTest {
     public static final String SERVER_NAME = "//android.widget.CheckedTextView[contains(@text, '<serverName>')]";
     public static final String VENUE_NAME = "//android.widget.TextView[contains(@text, '<venueName>')]";
     public static AndroidDriver<MobileElement> driver;
+    WebDriverWait wait;
     String hostName = "https://qa.vendsy.com/";
     String kdsUsername = "qa_automation_kds_login_2@gmail.com";
     String kdsPassword = "KDSLogin#2";
@@ -34,27 +39,18 @@ public class LoginTest {
         final String urlRemote = "http://127.0.0.1:4723/wd/hub";
         URL url = new URL(urlRemote);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        try {
-            driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     @AfterSuite
     public void tearDownAppium() {
-        try {
-            driver.quit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        driver.quit();
     }
 
     @Test
     public void ableToLogin() {
-
-
         Utils.sleep(2000);
         driver.activateApp("com.vendsy.tray.pos");
         driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -67,7 +63,7 @@ public class LoginTest {
 
 
     public LoginTest clickTrayImage() {
-        Utils.sleep(5000);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("developer_mode")));
         MobileElement imgTray = driver.findElementById("developer_mode");
         for (int i = 1; i <= 5; i++)
             imgTray.click();
@@ -75,7 +71,7 @@ public class LoginTest {
     }
 
     public LoginTest selectServer(String serverName) {
-        Utils.sleep(5000);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("android:id/text1")));
         MobileElement drpServers = driver.findElementById("android:id/text1");
         drpServers.click();
         MobileElement e = driver.findElementByXPath(SERVER_NAME.replace("<serverName>", serverName));
@@ -85,14 +81,14 @@ public class LoginTest {
 
 
     public LoginTest clickLoginButton() {
-        Utils.sleep(5000);
-        MobileElement btnLogin = driver.findElementById("submitButton");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("loginButton")));
+        MobileElement btnLogin = driver.findElementById("loginButton");
         btnLogin.click();
         return this;
     }
 
     public LoginTest loginToKDS(String username, String password) {
-        Utils.sleep(5000);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("submitButton")));
         MobileElement txtUsername = driver.findElementById("dialog_login_username");
         MobileElement txtPassword = driver.findElementById("dialog_login_password");
         MobileElement btnSubmit = driver.findElementById("submitButton");
