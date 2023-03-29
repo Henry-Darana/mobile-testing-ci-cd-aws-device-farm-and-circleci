@@ -1,23 +1,46 @@
 package tests;
 
 import io.appium.java_client.MobileElement;
-import managers.OurDriverManager;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import utils.Utils;
 
-public class LoginTest extends OurDriverManager {
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+public class LoginTest {
 
     public static final String SERVER_NAME = "//android.widget.CheckedTextView[contains(@text, '<serverName>')]";
     public static final String VENUE_NAME = "//android.widget.TextView[contains(@text, '<venueName>')]";
+    public static AndroidDriver<MobileElement> driver;
     String hostName = "https://hq-qa.vendsy.com/";
     String kdsUsername = "qa_automation_kds_login_2@gmail.com";
     String kdsPassword = "KDSLogin#2";
     String venueName = "Automation_2021";
-    String kdsDevice = "POS4";
     //MobileElement pnlVenues = driver.findElementById("android:id/parentPanel");
     //By buttonLogin = By.id("com.vendsy.tray.pos:id/loginButton");
+    String kdsDevice = "POS4";
+
+    @BeforeSuite
+    private void setUpAppium() throws MalformedURLException {
+
+        final String urlRemote = "http://127.0.0.1:4723/wd/hub";
+        URL url = new URL(urlRemote);
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    }
+
+    @AfterSuite
+    public void tearDownAppium() {
+        driver.quit();
+    }
 
     @Test
     public void ableToLogin() {
