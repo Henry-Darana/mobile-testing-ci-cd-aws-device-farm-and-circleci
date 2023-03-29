@@ -2,6 +2,7 @@ package tests;
 
 import io.appium.java_client.MobileElement;
 import managers.OurDriverManager;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
@@ -16,7 +17,6 @@ public class LoginTest extends OurDriverManager {
     String kdsPassword = "KDSLogin#2";
     String venueName = "Automation_2021";
     String kdsDevice = "POS4";
-
     //MobileElement pnlVenues = driver.findElementById("android:id/parentPanel");
     //By buttonLogin = By.id("com.vendsy.tray.pos:id/loginButton");
 
@@ -24,14 +24,10 @@ public class LoginTest extends OurDriverManager {
     public void ableToLogin() {
 
 
-        Utils.sleep(5000);
-        //driver.rotate(ScreenOrientation.LANDSCAPE);
-        //Utils.sleep(5000);
+        Utils.sleep(2000);
+        driver.rotate(ScreenOrientation.LANDSCAPE);
         driver.activateApp("com.vendsy.tray");
-        //MobileElement btnAllow = driver.findElementById("com.android.packageinstaller:id/permission_allow_button");
-        //btnAllow.click();
-        //driver.activateApp("com.vendsy.tray.pos");
-        //driver.switchTo().alert().accept();
+        Utils.sleep(2000);
 
         clickTrayImage().selectServer(hostName).clickLoginButton()
                 .loginToKDS(kdsUsername, kdsPassword).selectVenueInVenueList(venueName)
