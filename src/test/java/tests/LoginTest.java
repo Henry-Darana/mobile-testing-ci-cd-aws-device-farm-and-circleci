@@ -33,13 +33,21 @@ public class LoginTest {
         final String urlRemote = "http://127.0.0.1:4723/wd/hub";
         URL url = new URL(urlRemote);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
+        try {
+            driver = new AndroidDriver<MobileElement>(url, desiredCapabilities);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
     }
 
     @AfterSuite
     public void tearDownAppium() {
-        driver.quit();
+        try {
+            driver.quit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
