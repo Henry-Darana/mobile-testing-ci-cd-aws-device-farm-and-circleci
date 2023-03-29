@@ -90,6 +90,7 @@ public class LoginTest {
         MobileElement btnSubmit = driver.findElementById("submitButton");
         txtUsername.sendKeys(username);
         txtPassword.sendKeys(password);
+        Utils.sleep(10000);
         btnSubmit.click();
         return this;
     }
