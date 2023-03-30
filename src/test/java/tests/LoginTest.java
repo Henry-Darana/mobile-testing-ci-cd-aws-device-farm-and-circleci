@@ -96,7 +96,7 @@ public class LoginTest {
     }
 
     public LoginTest selectVenueInVenueList(String venueName) {
-        Utils.sleep(10000);
+        Utils.sleep(50000);
         MobileElement e = driver.findElementByXPath(VENUE_NAME.replace("<venueName>", venueName));
         e.click();
         return this;
