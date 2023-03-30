@@ -96,7 +96,16 @@ public class LoginTest {
     }
 
     public LoginTest selectVenueInVenueList(String venueName) {
-        Utils.sleep(50000);
+        boolean isDisplayed = false;
+        int counter = 0;
+
+        while (!isDisplayed || counter > 5) {
+            isDisplayed = (driver.findElementsByXPath(VENUE_NAME.replace("<venueName>", venueName)))
+                    .size() > 0 ? true : false;
+            Utils.sleep(20000);
+            counter++;
+        }
+
         MobileElement e = driver.findElementByXPath(VENUE_NAME.replace("<venueName>", venueName));
         e.click();
         return this;
