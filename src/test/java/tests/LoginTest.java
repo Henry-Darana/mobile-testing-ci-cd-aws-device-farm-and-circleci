@@ -25,8 +25,11 @@ public class LoginTest extends OurDriverManager {
         Utils.sleep(5000);
         Utils.openPOS();
         enterQuickCode(quickCode).clickContinueButton();
-        Utils.sleep(10000);
+        Utils.sleep(5000);
         Utils.openKDS();
+        Utils.sleep(5000);
+        Utils.openPOS();
+        Utils.sleep(5000);
     }
 
     public LoginTest clickTrayImage() {
