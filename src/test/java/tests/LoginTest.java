@@ -9,12 +9,23 @@ import utils.Utils;
 public class LoginTest extends OurDriverManager {
 
     @Test
-    public void ableToLogin() {
+    public void ableToLoginToKDS() {
         Utils.sleep(2000);
-        driver.activateApp("com.vendsy.tray.pos");
+        Utils.openKDS();
 
         clickTrayImage().selectServer(hostName).clickLoginButton().loginToKDS(kdsUsername, kdsPassword)
                 .selectVenueInVenueList(venueName).selectDevice(kdsDevice);
+
+        Utils.sleep(5000);
+        Utils.openPOS();
+        Utils.sleep(5000);
+    }
+
+    @Test(dependsOnMethods = {"ableToLoginToKDS"})
+    public void ableToLoginViaQuickCode() {
+        Utils.sleep(5000);
+        Utils.openPOS();
+        enterQuickCode(quickCode).clickContinueButton();
     }
 
     public LoginTest clickTrayImage() {
@@ -64,4 +75,63 @@ public class LoginTest extends OurDriverManager {
         return this;
     }
 
+    public LoginTest enterQuickCode(String quickCode) {
+        MobileElement btn1 = driver.findElementById("com.vendsy.tray:id/button_1");
+        MobileElement btn2 = driver.findElementById("com.vendsy.tray:id/button_2");
+        MobileElement btn3 = driver.findElementById("com.vendsy.tray:id/button_3");
+        MobileElement btn4 = driver.findElementById("com.vendsy.tray:id/button_4");
+        MobileElement btn5 = driver.findElementById("com.vendsy.tray:id/button_5");
+        MobileElement btn6 = driver.findElementById("com.vendsy.tray:id/button_6");
+        MobileElement btn7 = driver.findElementById("com.vendsy.tray:id/button_7");
+        MobileElement btn8 = driver.findElementById("com.vendsy.tray:id/button_8");
+        MobileElement btn9 = driver.findElementById("com.vendsy.tray:id/button_9");
+        MobileElement btn0 = driver.findElementById("com.vendsy.tray:id/button_0");
+
+
+        char[] quickCodeArray = quickCode.toCharArray();
+        int i = 0;
+        while (i <= quickCodeArray.length - 1) {
+            switch (quickCodeArray[i]) {
+                case '1':
+                    btn1.click();
+                    break;
+                case '2':
+                    btn2.click();
+                    break;
+                case '3':
+                    btn3.click();
+                    break;
+                case '4':
+                    btn4.click();
+                    break;
+                case '5':
+                    btn5.click();
+                    break;
+                case '6':
+                    btn6.click();
+                    break;
+                case '7':
+                    btn7.click();
+                    break;
+                case '8':
+                    btn8.click();
+                    break;
+                case '9':
+                    btn9.click();
+                    break;
+                case '0':
+                    btn0.click();
+                    break;
+            }
+            i++;
+        }
+
+        return this;
+    }
+
+    public LoginTest clickContinueButton() {
+        MobileElement btnContinue = driver.findElementById("com.vendsy.tray:id/submit_button");
+        btnContinue.click();
+        return this;
+    }
 }

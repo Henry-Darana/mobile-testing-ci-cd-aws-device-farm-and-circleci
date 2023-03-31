@@ -22,6 +22,7 @@ public class OurDriverManager {
     public static final String kdsPassword = "KDSLogin#2";
     public static final String venueName = "Reports Validation - Do Not Use or Delete.";
     public static final String kdsDevice = "POS4";
+    public static final String quickCode = "1122";
 
     public static AndroidDriver<MobileElement> driver;
 
@@ -42,6 +43,7 @@ public class OurDriverManager {
 
     public void setUpAppiumOnLocal(URL url) {
         String lnkKDS = System.getProperty("user.dir") + "/src/test/resources/KDS.apk";
+        String lnkPOS = System.getProperty("user.dir") + "/src/test/resources/POS.apk";
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability("udid", "HA0KFKBC");
@@ -49,10 +51,11 @@ public class OurDriverManager {
         caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
         caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10");
         caps.setCapability("autoGrantPermissions", "true");
-        caps.setCapability("appWaitDuration", "5000");
+        caps.setCapability("appWaitDuration", "10000");
         caps.setCapability("appWaitPackage", "com.vendsy.tray.pos");
         caps.setCapability("appWaitActivity", "com.vendsy.tray.pos.InitActivity");
         caps.setCapability("app", lnkKDS);
+        caps.setCapability("otherApps", lnkPOS);
         caps.setCapability(MobileCapabilityType.FULL_RESET, "true");
         driver = new AndroidDriver(url, caps);
 
