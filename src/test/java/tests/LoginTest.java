@@ -17,8 +17,7 @@ public class LoginTest extends OurDriverManager {
                 .selectVenueInVenueList(venueName).selectDevice(kdsDevice);
 
         Utils.sleep(5000);
-        Utils.openPOS();
-        Utils.sleep(5000);
+        Utils.openKDS();
     }
 
     @Test(dependsOnMethods = {"ableToLoginToKDS"})
@@ -26,6 +25,7 @@ public class LoginTest extends OurDriverManager {
         Utils.sleep(5000);
         Utils.openPOS();
         enterQuickCode(quickCode).clickContinueButton();
+        Utils.sleep(5000);
     }
 
     public LoginTest clickTrayImage() {
