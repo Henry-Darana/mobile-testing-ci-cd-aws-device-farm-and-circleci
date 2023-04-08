@@ -15,6 +15,12 @@ jobs:
       #- maven/install
       #- aws-cli/install
       - run : mvn -version
+      - run:
+          name: Install CLI
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run : aws --version
       - run:
           name: Build a package for AWS Device Farm
