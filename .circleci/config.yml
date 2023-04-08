@@ -35,7 +35,30 @@ jobs:
             aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region $AWS_DEFAULT_REGION
+      - run:
+          name: Upload app and tests to Device Farm
+          command: |
+            PROJECT_ARN="arn:aws:devicefarm:us-west-2:366012283008:project:Jenkins Appium Device Farm"
+            DEVICE_POOL_ARN="arn:aws:devicefarm:us-west-2:366012283008:devicepool:Samsung Galaxy Tab S8"
+            APP_PATH="**/test/resources/KDS.apk"
+            TEST_PACKAGE_PATH="**/target/zip-with-dependencies.zip"
 
+#            # Upload the app
+#            app_upload_result="$(aws devicefarm create-upload --project-arn $PROJECT_ARN --name "app.apk" --type ANDROID_APP --query upload.[url,arn] --output text)"
+#            app_upload_url="$(echo $app_upload_result | cut -d ' ' -f 1)"
+#            app_upload_arn="$(echo $app_upload_result | cut -d ' ' -f 2)"
+#            aws s3 cp $APP_PATH $app_upload_url
+#            aws devicefarm update-upload --arn $app_upload_arn --status "PROCESSING"
+#
+#            # Upload the tests
+#            test_upload_result="$(aws devicefarm create-upload --project-arn $PROJECT_ARN --name "tests.zip" --type APPIUM_JAVA_TESTNG_TEST_PACKAGE --query upload.[url,arn] --output text)"
+#            test_upload_url="$(echo $test_upload_result | cut -d ' ' -f 1)"
+#            test_upload_arn="$(echo $test_upload_result | cut -d ' ' -f 2)"
+#            aws s3 cp $TEST_PACKAGE_PATH $test_upload_url
+#            aws devicefarm update-upload --arn $test_upload_arn --status "PROCESSING"
+#
+#            # Schedule a test run
+#            aws devicefarm schedule-run --project-arn $PROJECT_ARN --app-arn $app_upload_arn --device-pool-arn $DEVICE_POOL_ARN --name "My Test Run" --test  "type=APPIUM_JAVA_TESTNG,testPackageArn=$test_upload_arn,testSpecArn=$TEST_SPEC_ARN"
 #      - run:
 #          name: Save Test Results
 #          command: |
