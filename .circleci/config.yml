@@ -9,7 +9,7 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:16.0.0
-      - image: cimg/aws:2023.04
+      - image: cimg/aws:2022.06
     steps:
       - checkout
       #- maven/install
@@ -17,10 +17,10 @@ jobs:
       - run : mvn -version
       - run : aws --version
       - run:
-          name: Build A Package For AWS Device Farm
+          name: Build a package for AWS Device Farm
           command: mvn clean package -DskipTests=true
       - run:
-          name: Add POS to Dependency Zip
+          name: Add POS to dependencies zip
           command: zip -u target/zip-with-dependencies.zip */test/resources/POS.apk
       - run:
           name: Save Test Results
