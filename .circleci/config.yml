@@ -9,11 +9,13 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:16.0.0
+      - image: cimg/aws:2023.04
     steps:
       - checkout
       #- maven/install
       #- aws-cli/install
       - run : mvn -version
+      - run : aws --version
       - run:
           name: Build A Package For AWS Device Farm
           command: mvn clean package -DskipTests=true
