@@ -11,11 +11,15 @@ jobs:
       - image: cimg/openjdk:16.0.0
     steps:
       - checkout
-      - maven/install
-      - aws-cli/install
+      #- maven/install
+      #- aws-cli/install
+      - run : mvn -version
       - run:
           name: Build A Package For AWS Device Farm
           command: clean package -DskipTests=true
+      - run:
+          name: Add POS to Dependency Zip
+          command: zip -u target/zip-with-dependencies.zip */test/resources/POS.apk
       - run:
           name: Save Test Results
           command: |
@@ -32,6 +36,6 @@ jobs:
           destination: gradle-test-report.tar
 #Nonsense
 workflows:
-  test-tray-workflow:
+  circle-ci-to-aws-device-farm-workflow:
     jobs:
       - build
