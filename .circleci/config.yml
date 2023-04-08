@@ -8,6 +8,10 @@ jobs:
     docker:
       - image: cimg/openjdk:8.0.362
       - image: cimg/aws:2022.06
+    environment:
+      AWS_ACCESS_KEY_ID: <<context:aws-keys.AWS_ACCESS_KEY_ID>>
+      AWS_SECRET_ACCESS_KEY: <<context:aws-keys.AWS_SECRET_ACCESS_KEY>>
+      AWS_DEFAULT_REGION: us-west-2
     steps:
       - checkout
       #- aws-cli/install
@@ -26,19 +30,26 @@ jobs:
           name: Add POS to dependencies zip
           command: zip -u target/zip-with-dependencies.zip */test/resources/POS.apk
       - run:
-          name: Save Test Results
+          name: Configure AWS Credentials
           command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results
-      - run:
-          name: Compress Artifacts
-          command: tar -cvzf gradle-test-report.tar .*/build/reports/tests/test/
-      - store_artifacts:
-          path: gradle-test-report.tar
-          destination: gradle-test-report.tar
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set default.region $AWS_DEFAULT_REGION
+
+#      - run:
+#          name: Save Test Results
+#          command: |
+#            mkdir -p ~/test-results/junit/
+#            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+#          when: always
+#      - store_test_results:
+#          path: ~/test-results
+#      - run:
+#          name: Compress Artifacts
+#          command: tar -cvzf gradle-test-report.tar .*/build/reports/tests/test/
+#      - store_artifacts:
+#          path: gradle-test-report.tar
+#          destination: gradle-test-report.tar
 #Nonsense
 workflows:
   circle-ci-to-aws-device-farm-workflow:
