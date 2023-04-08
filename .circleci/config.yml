@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.1.0
   aws-cli: circleci/aws-cli@3.1
+  maven: circleci/maven@1.0.3
 
 jobs:
   build:
@@ -10,9 +11,8 @@ jobs:
       - image: cimg/openjdk:16.0.0
     steps:
       - checkout
-      - run:
-          name: Install Maven
-          command: sudo apt-get install -y maven
+      - maven/install
+      - aws-cli/install
       - run:
           name: Build A Package For AWS Device Farm
           command: clean package -DskipTests=true
