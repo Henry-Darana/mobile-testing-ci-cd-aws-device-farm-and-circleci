@@ -16,7 +16,7 @@ jobs:
       - run : mvn -version
       - run:
           name: Build A Package For AWS Device Farm
-          command: clean package -DskipTests=true
+          command: mvn clean package -DskipTests=true
       - run:
           name: Add POS to Dependency Zip
           command: zip -u target/zip-with-dependencies.zip */test/resources/POS.apk
