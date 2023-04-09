@@ -63,7 +63,7 @@ jobs:
             echo "Tests Spec ARN: $TEST_SPEC_ARN"
             echo "Tests Spec URL: $TEST_SPEC_URL"
             curl -T **/test/resources/TraySpec.yml "$TEST_SPEC_URL"
-            aws devicefarm get-upload --arn "$TEST_SPEC_ARN"
+            aws devicefarm schedule-run --project-arn "$PROJECT_ARN" --app-arn "$APP_UPLOAD_ARN" --device-pool-arn $DEVICE_POOL_ARN --name MyTestRun --test testSpecArn="$TEST_SPEC_ARN",type=APPIUM_JAVA_TESTNG,testPackageArn="$TEST_UPLOAD_ARN"
       
       
 
