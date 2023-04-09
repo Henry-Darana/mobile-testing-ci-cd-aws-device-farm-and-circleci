@@ -55,7 +55,7 @@ jobs:
             export TEST_UPLOAD_ARN=$(echo $testsUploadedResponse | jq -r '.upload.arn')
             echo "Tests Upload ARN: $TEST_UPLOAD_ARN"
             echo "Tests Upload URL: $TEST_UPLOAD_URL"
-            curl -T **/target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
+            curl -T target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
             echo "Tests Uploaded Status: $(aws devicefarm get-upload –-arn "$TEST_UPLOAD_ARN")
 
       #      - run:
