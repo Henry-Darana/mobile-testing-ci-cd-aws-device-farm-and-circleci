@@ -48,7 +48,7 @@ jobs:
             echo "App Upload ARN: $APP_UPLOAD_ARN"
             echo "App Upload URL: $APP_UPLOAD_URL"
             curl -T **/test/resources/KDS.apk "$APP_UPLOAD_URL"
-            export appUploadedResponse=aws devicefarm get-upload –-arn "$APP_UPLOAD_ARN"            
+            export appUploadedResponse=$(aws devicefarm get-upload –-arn "$APP_UPLOAD_ARN")            
             echo "App Uploaded Status: $(echo $appUploadedResponse | jq -r '.upload.status')"
 
       #      - run:
