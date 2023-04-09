@@ -40,8 +40,8 @@ jobs:
       - run:
           name: Get project ARN
           command: |
-            - export PROJECT_ARN=$(aws devicefarm list-projects | grep -B 2 "$PROJECT_NAME" | grep arn | cut -d '"' -f 4)
-            - echo "Project ARN: $PROJECT_ARN"
+            export PROJECT_ARN=$(aws devicefarm list-projects | grep -B 2 "$PROJECT_NAME" | grep arn | cut -d '"' -f 4)
+            echo "Project ARN: $PROJECT_ARN"
       #      - run:
       #        name: Upload app and tests to Device Farm
       #        command: |
