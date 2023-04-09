@@ -56,7 +56,7 @@ jobs:
             echo "Tests Upload ARN: $TEST_UPLOAD_ARN"
             echo "Tests Upload URL: $TEST_UPLOAD_URL"
             curl -T target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
-            echo "Tests Uploaded Status: $(aws devicefarm get-upload –-arn "$TEST_UPLOAD_ARN")
+            
 
       #      - run:
       #        name: Upload app and tests to Device Farm
