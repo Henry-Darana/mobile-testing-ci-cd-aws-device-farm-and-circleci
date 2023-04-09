@@ -43,8 +43,8 @@ jobs:
             aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region $AWS_DEFAULT_REGION
-      -run:
-          name: Upload app and tests to Device Farm
+      - run:
+          name: Get project ARN
           command: echo $PROJECT_ARN
       #      - run:
       #        name: Upload app and tests to Device Farm
