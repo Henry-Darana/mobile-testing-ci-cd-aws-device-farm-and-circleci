@@ -20,6 +20,9 @@ jobs:
             sudo ./aws/install
       - run: aws --version
       - run:
+          name: Install jq
+          command: sudo apt-get install jq
+      - run:
           name: Build a package for AWS Device Farm
           command: mvn clean package -DskipTests=true
       - run:
@@ -34,15 +37,11 @@ jobs:
       - run:
           name: Get project ARN
           command: |
-            echo $AWS_ACCESS_KEY_ID
-            #aws configure get aws_secret_access_key
-            aws devicefarm list-projects
-            export PROJECT_ARN=$(aws devicefarm list-projects | grep -B 2 "$PROJECT_NAME" | grep arn | cut -d '"' -f 4)
+            export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
             echo "Project ARN: $PROJECT_ARN"
       - run:
           name: Extract Device Pool ARN
           command: |
-            sudo apt-get install jq
             ARN=$(aws devicefarm list-device-pools --arn $PROJECT_ARN | jq -r '.devicePools[] | select(.name == "Samsung Galaxy Tab S8") | .arn')
             echo "Device Pool ARN: $ARN"            
 
