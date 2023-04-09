@@ -13,7 +13,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: context:aws-keys.AWS_SECRET_ACCESS_KEY
       AWS_DEFAULT_REGION: us-west-2
       PROJECT_NAME: "Jenkins Appium Device Farm"
-      PROJECT_ARN: $(aws devicefarm list-projects | grep -B 2 "$PROJECT_NAME" | grep arn | cut -d '"' -f 4)
+      PROJECT_ARN: ""
     steps:
       - checkout
       #- aws-cli/install
@@ -38,14 +38,10 @@ jobs:
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region $AWS_DEFAULT_REGION
       - run:
-          name: Configure AWS Credentials
-          command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            aws configure set default.region $AWS_DEFAULT_REGION
-      - run:
           name: Get project ARN
-          command: echo $PROJECT_ARN
+          command: |
+            - export PROJECT_ARN=$(aws devicefarm list-projects | grep -B 2 "$PROJECT_NAME" | grep arn | cut -d '"' -f 4)
+            - echo "Project ARN: $PROJECT_ARN"
       #      - run:
       #        name: Upload app and tests to Device Farm
       #        command: |
