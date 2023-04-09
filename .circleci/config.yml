@@ -40,8 +40,11 @@ jobs:
           command: |
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
             echo "Project ARN: $PROJECT_ARN"            
-            export ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "$DEVICE_POOL") | .arn')
-            echo "Device Pool ARN: $ARN"            
+            export DEVICE_POOL_ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "$DEVICE_POOL") | .arn')
+            echo "Device Pool ARN: $DEVICE_POOL_ARN"            
+            export APP_UPLOAD_ARN=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name KDS.apk --type ANDROID_APP | jq -r '.upload.arn')
+            echo "Device Pool ARN: $APP_UPLOAD_ARN"
+
 
       #      - run:
       #        name: Upload app and tests to Device Farm
