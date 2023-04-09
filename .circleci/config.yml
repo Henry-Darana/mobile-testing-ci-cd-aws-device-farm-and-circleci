@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:8.0.362
-      - image: cimg/aws:2022.06
+      #- image: cimg/aws:2022.06
     environment:
       AWS_ACCESS_KEY_ID: context:aws-keys.AWS_ACCESS_KEY_ID
       AWS_SECRET_ACCESS_KEY: context:aws-keys.AWS_SECRET_ACCESS_KEY
@@ -48,7 +48,7 @@ jobs:
             app_upload_url="$(echo $app_upload_result | cut -d ' ' -f 1)"
             app_upload_arn="$(echo $app_upload_result | cut -d ' ' -f 2)"
             aws s3 cp $APP_PATH $app_upload_url
-            aws devicefarm update-upload --arn $app_upload_arn --status "PROCESSING"
+            update-upload --arn $app_upload_arn --status "PROCESSING"
 #
 #            # Upload the tests
 #            test_upload_result="$(aws devicefarm create-upload --project-arn $PROJECT_ARN --name "tests.zip" --type APPIUM_JAVA_TESTNG_TEST_PACKAGE --query upload.[url,arn] --output text)"
