@@ -72,5 +72,5 @@ jobs:
 workflows:
   circle-ci-to-aws-device-farm-workflow:
     jobs:
-      - build
+      - build:
         context: aws-keys
