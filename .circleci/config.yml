@@ -9,6 +9,7 @@ jobs:
       - image: cimg/openjdk:8.0.362
     environment:
       PROJECT_NAME: "Jenkins Appium Device Farm"
+      DEVICE_POOL: "Samsung Galaxy Tab S8"
     steps:
       - checkout
       - run: mvn -version
@@ -39,7 +40,7 @@ jobs:
           command: |
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
             echo "Project ARN: $PROJECT_ARN"            
-            export ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "Samsung Galaxy Tab S8") | .arn')
+            export ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "$DEVICE_POOL") | .arn')
             echo "Device Pool ARN: $ARN"            
 
       #      - run:
