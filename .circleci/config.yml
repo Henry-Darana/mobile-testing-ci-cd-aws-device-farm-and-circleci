@@ -58,7 +58,7 @@ jobs:
             curl -T target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
             aws devicefarm get-upload --arn "$TEST_UPLOAD_ARN"
             export uploadsResponse=$(aws devicefarm list-uploads --arn "$PROJECT_ARN")
-            export TEST_SPEC=$(echo $uploadsResponse | jq -r '.uploads[] | select(.name == 'TraySpec-Final.yml') | .arn')
+            export TEST_SPEC=$($uploadsResponse | jq -r '.uploads[] | select(.name == 'TraySpec-Final.yml') | .arn')
             echo "Test Spec: $TEST_SPEC"
             
             
