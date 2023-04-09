@@ -35,14 +35,10 @@ jobs:
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-west-2
       - run:
-          name: Get project ARN
+          name: Get project ARN and Extract Device Pool ARN
           command: |
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
-            echo "Project ARN: $PROJECT_ARN"
-      - run:
-          name: Extract Device Pool ARN
-          command: |
-            aws devicefarm list-device-pools --arn $PROJECT_ARN
+            echo "Project ARN: $PROJECT_ARN"            
             export ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "Samsung Galaxy Tab S8") | .arn')
             echo "Device Pool ARN: $ARN"            
 
