@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Extract Device Pool ARN
           command: |
-            ARN=$(aws devicefarm list-device-pools --arn $PROJECT_ARN | jq -r '.devicePools[] | select(.name == "Samsung Galaxy Tab S8") | .arn')
+            ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "Samsung Galaxy Tab S8") | .arn')
             echo "Device Pool ARN: $ARN"            
 
       #      - run:
