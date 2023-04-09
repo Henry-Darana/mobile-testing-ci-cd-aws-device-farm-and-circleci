@@ -9,8 +9,8 @@ jobs:
       - image: cimg/openjdk:8.0.362
       #- image: cimg/aws:2022.06
     environment:
-      AWS_ACCESS_KEY_ID: context:aws-keys.AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY: context:aws-keys.AWS_SECRET_ACCESS_KEY
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
       AWS_DEFAULT_REGION: us-west-2
       PROJECT_NAME: "Jenkins Appium Device Farm"
       #PROJECT_ARN: ""
