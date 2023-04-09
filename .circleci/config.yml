@@ -57,11 +57,15 @@ jobs:
             echo "Tests Upload URL: $TEST_UPLOAD_URL"
             curl -T target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
             aws devicefarm get-upload --arn "$TEST_UPLOAD_ARN"
-            export uploadsResponse=$(aws devicefarm list-uploads --arn "$PROJECT_ARN")
-            export TEST_SPEC=$($uploadsResponse | jq -r '.uploads[] | select(.name == 'TraySpec-Final.yml') | .arn')
-            echo "Test Spec: $TEST_SPEC"
-            
-            
+            export testSpecResponse=$(aws devicefarm create-upload --name TraySpec.yml --type APPIUM_JAVA_TESTNG_TEST_SPEC --project-arn "$PROJECT_ARN")
+            export TEST_SPEC_URL=$(echo testSpecResponse | jq -r '.upload.url')
+            export TEST_SPEC_ARN=$(echo testSpecResponse | jq -r '.upload.arn')
+            echo "Tests Spec ARN: $TEST_SPEC_ARN"
+            echo "Tests Spec URL: $TEST_SPEC_URL"
+            curl -T **/test/resources/TraySpec.yml "$TEST_SPEC_URL"
+            aws devicefarm get-upload --arn "$TEST_SPEC_ARN"
+      
+      
 
       #      - run:
       #        name: Upload app and tests to Device Farm
