@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Get project ARN
           command: |
-            aws configure get aws_secret_access_key
+            #aws configure get aws_secret_access_key
             aws devicefarm list-projects
             export PROJECT_ARN=$(aws devicefarm list-projects | grep -B 2 "$PROJECT_NAME" | grep arn | cut -d '"' -f 4)
             echo "Project ARN: $PROJECT_ARN"
