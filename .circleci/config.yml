@@ -79,6 +79,8 @@ jobs:
             export TEST_RUN_ARN=$(echo $TEST_RUN_RESPONSE | jq -r '.run.arn')
             echo "Test Run Status: $TEST_RUN_STATUS"
             aws devicefarm get-run --arn "$TEST_RUN_ARN"
+            sleep 180
+            aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE
 
 workflows:
   circle-ci-to-aws-device-farm-workflow:
