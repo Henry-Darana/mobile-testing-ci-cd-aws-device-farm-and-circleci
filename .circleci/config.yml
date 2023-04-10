@@ -85,9 +85,9 @@ jobs:
             echo "Artifacts ARN: $ARTIFACTS_ARN"
             echo "Artifacts URL: $ARTIFACTS_URL"
             sleep 15       
-            curl "$ARTIFACTS_URL" > Execution-"$CIRCLE_BUILD_NUM".mp4
+            curl "$ARTIFACTS_URL" > Execution.mp4
       - store_artifacts:
-          path: Execution-"$CIRCLE_BUILD_NUM".mp4
+          path: Execution.mp4
           destination: Execution-"$CIRCLE_BUILD_NUM".mp4
 
 workflows:
