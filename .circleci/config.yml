@@ -87,8 +87,8 @@ jobs:
             sleep 15       
             curl "$ARTIFACTS_URL" > Execution-"$CIRCLE_BUILD_NUM".mp4
       - store_artifacts:
-          path: Execution.mp4
-          destination: Execution.mp4
+          path: Execution-"$CIRCLE_BUILD_NUM".mp4
+          destination: Execution-"$CIRCLE_BUILD_NUM".mp4
 
 workflows:
   circle-ci-to-aws-device-farm-workflow:
