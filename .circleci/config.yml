@@ -86,12 +86,11 @@ jobs:
             export ARTIFACTS_URL=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .url')
             echo "Artifacts ARN: $ARTIFACTS_ARN"
             echo "Artifacts URL: $ARTIFACTS_URL"            
-            aws s3 cp / "$ARTIFACTS_URL" 
-            ls 
-#
-#      - store_artifacts:
-#          destination: ~/
-
+            curl "$ARTIFACTS_URL" > Execution.mp4 
+            ls
+      - store_artifacts:
+          path: Execution.mp4
+          destination: Execution.mp4
 
 workflows:
   circle-ci-to-aws-device-farm-workflow:
