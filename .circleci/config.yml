@@ -35,9 +35,7 @@ jobs:
             aws configure set default.region us-west-2
       - run:
           name: Deploying code to AWS Device Farm
-          command: |
-            ls
-            
+          command: |            
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
             echo "Project ARN: $PROJECT_ARN"
             
@@ -85,9 +83,9 @@ jobs:
             export ARTIFACTS_ARN=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .arn')
             export ARTIFACTS_URL=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .url')
             echo "Artifacts ARN: $ARTIFACTS_ARN"
-            echo "Artifacts URL: $ARTIFACTS_URL"            
-            curl "$ARTIFACTS_URL" > Execution.mp4 
-            ls
+            echo "Artifacts URL: $ARTIFACTS_URL"
+            sleep 15       
+            curl "$ARTIFACTS_URL" > Execution-"$CIRCLE_BUILD_NUM".mp4
       - store_artifacts:
           path: Execution.mp4
           destination: Execution.mp4
