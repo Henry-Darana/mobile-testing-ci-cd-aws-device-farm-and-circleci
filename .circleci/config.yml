@@ -39,9 +39,11 @@ jobs:
           name: Get project ARN and Extract Device Pool ARN
           command: |
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
-            echo "Project ARN: $PROJECT_ARN"            
+            echo "Project ARN: $PROJECT_ARN"
+            
             export DEVICE_POOL_ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "'"$DEVICE_POOL"'") | .arn')
             echo "Device Pool ARN: $DEVICE_POOL_ARN"            
+            
             export APP_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name KDS.apk --type ANDROID_APP)
             export APP_UPLOAD_URL=$(echo $APP_UPLOAD_RESPONSE | jq -r '.upload.url')
             export APP_UPLOAD_ARN=$(echo $APP_UPLOAD_RESPONSE | jq -r '.upload.arn')
@@ -49,23 +51,27 @@ jobs:
             echo "App Upload URL: $APP_UPLOAD_URL"
             curl -T **/test/resources/KDS.apk "$APP_UPLOAD_URL"
             sleep 10
-            export appUploadedResponse=$(aws devicefarm get-upload --arn "$APP_UPLOAD_ARN")
-            echo "App Uploaded Status: $(echo $appUploadedResponse | jq -r '.upload.status')"
-            export testsUploadedResponse=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name zip-with-dependencies.zip --type APPIUM_JAVA_TESTNG_TEST_PACKAGE)
-            export TEST_UPLOAD_URL=$(echo $testsUploadedResponse | jq -r '.upload.url')
-            export TEST_UPLOAD_ARN=$(echo $testsUploadedResponse | jq -r '.upload.arn')
+            export APP_UPLOAD_RESPONSE=$(aws devicefarm get-upload --arn "$APP_UPLOAD_ARN")
+            echo "App Upload Status: $(echo $APP_UPLOAD_RESPONSE | jq -r '.upload.status')"
+            
+            export TEST_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name zip-with-dependencies.zip --type APPIUM_JAVA_TESTNG_TEST_PACKAGE)
+            export TEST_UPLOAD_URL=$(echo $TEST_UPLOAD_RESPONSE | jq -r '.upload.url')
+            export TEST_UPLOAD_ARN=$(echo $TEST_UPLOAD_RESPONSE | jq -r '.upload.arn')
             echo "Tests Upload ARN: $TEST_UPLOAD_ARN"
             echo "Tests Upload URL: $TEST_UPLOAD_URL"
             curl -T target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
             sleep 10
-            aws devicefarm get-upload --arn "$TEST_UPLOAD_ARN"
-            export testSpecResponse=$(aws devicefarm create-upload --name TraySpec.yml --type APPIUM_JAVA_TESTNG_TEST_SPEC --project-arn "$PROJECT_ARN")
-            export TEST_SPEC_URL=$(echo testSpecResponse | jq -r '.upload.url')
-            export TEST_SPEC_ARN=$(echo testSpecResponse | jq -r '.upload.arn')
+            export TEST_UPLOAD_RESPONSE=$(aws devicefarm get-upload --arn "$TEST_UPLOAD_ARN")
+            echo "Test Upload Status: $(echo $TEST_UPLOAD_RESPONSE | jq -r '.upload.status')"
+            
+            export TEST_SPEC_UPLOAD_RESPONSE=$(aws devicefarm create-upload --name TraySpec.yml --type APPIUM_JAVA_TESTNG_TEST_SPEC --project-arn "$PROJECT_ARN")
+            export TEST_SPEC_URL=$(echo $TEST_SPEC_UPLOAD_RESPONSE | jq -r '.upload.url')
+            export TEST_SPEC_ARN=$(echo $TEST_SPEC_UPLOAD_RESPONSE | jq -r '.upload.arn')
             echo "Tests Spec ARN: $TEST_SPEC_ARN"
             echo "Tests Spec URL: $TEST_SPEC_URL"
             curl -T **/test/resources/TraySpec.yml "$TEST_SPEC_URL"
             sleep 10
+            
             aws devicefarm schedule-run --project-arn "$PROJECT_ARN" --app-arn "$APP_UPLOAD_ARN" --device-pool-arn $DEVICE_POOL_ARN --name MyTestRun --test testSpecArn="$TEST_SPEC_ARN",type=APPIUM_JAVA_TESTNG,testPackageArn="$TEST_UPLOAD_ARN"
 
 
