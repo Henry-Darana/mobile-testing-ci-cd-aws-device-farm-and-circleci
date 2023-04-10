@@ -36,6 +36,8 @@ jobs:
       - run:
           name: Deploying code to AWS Device Farm
           command: |
+            ls
+            
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
             echo "Project ARN: $PROJECT_ARN"
             
@@ -80,10 +82,12 @@ jobs:
             echo "Test Run Status: $TEST_RUN_STATUS"
             aws devicefarm get-run --arn "$TEST_RUN_ARN"
             sleep 360            
-            export ARTIFACTS_ARN=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == 'VIDEO') | .arn')
-            export ARTIFACTS_URL=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == 'VIDEO') | .url')
+            export ARTIFACTS_ARN=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .arn')
+            export ARTIFACTS_URL=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .url')
             echo "Artifacts ARN: $ARTIFACTS_ARN"
             echo "Artifacts URL: $ARTIFACTS_URL"
+            aws s3 cp "$ARTIFACTS_URL" ~/
+
 
 workflows:
   circle-ci-to-aws-device-farm-workflow:
