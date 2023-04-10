@@ -20,24 +20,23 @@ jobs:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
-      - run: aws --version
       - run:
-          name: Install jq
+          name: Install Json Query (jq)
           command: sudo apt-get install jq
       - run:
-          name: Build a package for AWS Device Farm
+          name: Building the deploy package for AWS Device Farm
           command: mvn clean package -DskipTests=true
       - run:
-          name: Add POS to dependencies zip
+          name: Adding POS.apk to deploy package
           command: zip -u target/zip-with-dependencies.zip */test/resources/POS.apk
       - run:
-          name: Configure AWS Credentials
+          name: Configuring AWS Credentials
           command: |
             aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-west-2
       - run:
-          name: Get project ARN and Extract Device Pool ARN
+          name: Deploying code to AWS Device Farm
           command: |
             export PROJECT_ARN=$(aws devicefarm list-projects | jq -r '.projects[] | select(.name == "'"$PROJECT_NAME"'") | .arn')
             echo "Project ARN: $PROJECT_ARN"
@@ -45,7 +44,7 @@ jobs:
             export DEVICE_POOL_ARN=$(aws devicefarm list-device-pools --arn "$PROJECT_ARN" | jq -r '.devicePools[] | select(.name == "'"$DEVICE_POOL"'") | .arn')
             echo "Device Pool ARN: $DEVICE_POOL_ARN"            
             
-            export APP_NAME="KDS-"+"$CIRCLE_BUILD_NUM"+".apk"      
+            export APP_NAME="KDS-""$CIRCLE_BUILD_NUM"+".apk"      
             export APP_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name "$APP_NAME" --type ANDROID_APP)
             export APP_UPLOAD_URL=$(echo $APP_UPLOAD_RESPONSE | jq -r '.upload.url')
             export APP_UPLOAD_ARN=$(echo $APP_UPLOAD_RESPONSE | jq -r '.upload.arn')
@@ -73,36 +72,12 @@ jobs:
             echo "Tests Spec URL: $TEST_SPEC_URL"
             curl -T **/test/resources/TraySpec.yml "$TEST_SPEC_URL"
             sleep 15
+            export TEST_SPEC_UPLOAD_RESPONSE=$(aws devicefarm get-upload --arn "$TEST_SPEC_ARN")
+            echo "Test Upload Status: $(echo $TEST_SPEC_UPLOAD_RESPONSE | jq -r '.upload.status')"
             
-            export TEST_NAME="From-Circle-CI-"+"$CIRCLE_BUILD_NUM"
+            export TEST_NAME="From-Circle-CI-""$CIRCLE_BUILD_NUM"
             aws devicefarm schedule-run --project-arn "$PROJECT_ARN" --app-arn "$APP_UPLOAD_ARN" --device-pool-arn $DEVICE_POOL_ARN --name "$TEST_NAME" --test testSpecArn="$TEST_SPEC_ARN",type=APPIUM_JAVA_TESTNG,testPackageArn="$TEST_UPLOAD_ARN"
 
-
-
-  #      - run:
-  #        name: Upload app and tests to Device Farm
-  #        command: |
-  #          PROJECT_ARN="arn:aws:devicefarm:us-west-2:366012283008:project:Jenkins Appium Device Farm"
-  #          DEVICE_POOL_ARN="arn:aws:devicefarm:us-west-2:366012283008:devicepool:Samsung Galaxy Tab S8"
-  #          APP_PATH="**/test/resources/KDS.apk"
-  #          TEST_PACKAGE_PATH="**/target/zip-with-dependencies.zip"
-
-
-#      - run:
-#          name: Save Test Results
-#          command: |
-#            mkdir -p ~/test-results/junit/
-#            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-#          when: always
-#      - store_test_results:
-#          path: ~/test-results
-#      - run:
-#          name: Compress Artifacts
-#          command: tar -cvzf gradle-test-report.tar .*/build/reports/tests/test/
-#      - store_artifacts:
-#          path: gradle-test-report.tar
-#          destination: gradle-test-report.tar
-#Nonsense
 workflows:
   circle-ci-to-aws-device-farm-workflow:
     jobs:
