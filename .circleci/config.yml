@@ -88,9 +88,9 @@ jobs:
             echo "Artifacts URL: $ARTIFACTS_URL"            
             aws s3 cp "$ARTIFACTS_URL" ~/
             ls 
-
-      - store_artifacts:
-          destination: ~/
+#
+#      - store_artifacts:
+#          destination: ~/
 
 
 workflows:
