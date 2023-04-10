@@ -79,7 +79,7 @@ jobs:
             export TEST_RUN_ARN=$(echo $TEST_RUN_RESPONSE | jq -r '.run.arn')
             echo "Test Run Status: $TEST_RUN_STATUS"
             aws devicefarm get-run --arn "$TEST_RUN_ARN"
-            sleep 300            
+            sleep 360            
             export ARTIFACTS_ARN=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .arn')
             export ARTIFACTS_URL=$(aws devicefarm list-artifacts --arn "$TEST_RUN_ARN" --type FILE | jq -r '.artifacts[] | select(.type == "'VIDEO'") | .url')
             echo "Artifacts ARN: $ARTIFACTS_ARN"
