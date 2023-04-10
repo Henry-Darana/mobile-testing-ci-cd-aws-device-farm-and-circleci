@@ -87,7 +87,7 @@ jobs:
             echo "Artifacts ARN: $ARTIFACTS_ARN"
             echo "Artifacts URL: $ARTIFACTS_URL"            
             aws s3 cp "$ARTIFACTS_URL" ~/
-            ls
+            ls 
 
       - store_artifacts:
           destination: ~/
