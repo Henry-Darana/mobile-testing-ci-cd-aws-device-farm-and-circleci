@@ -10,7 +10,6 @@ jobs:
     environment:
       PROJECT_NAME: "Jenkins Appium Device Farm"
       DEVICE_POOL: "Samsung Galaxy Tab S8"
-
     steps:
       - checkout
       - run: mvn -version
