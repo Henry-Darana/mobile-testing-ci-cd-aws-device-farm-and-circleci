@@ -48,7 +48,8 @@ jobs:
             echo "App Upload ARN: $APP_UPLOAD_ARN"
             echo "App Upload URL: $APP_UPLOAD_URL"
             curl -T **/test/resources/KDS.apk "$APP_UPLOAD_URL"
-            export appUploadedResponse=$(aws devicefarm get-upload --arn "$APP_UPLOAD_ARN")            
+            sleep 10
+            export appUploadedResponse=$(aws devicefarm get-upload --arn "$APP_UPLOAD_ARN")
             echo "App Uploaded Status: $(echo $appUploadedResponse | jq -r '.upload.status')"
             export testsUploadedResponse=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name zip-with-dependencies.zip --type APPIUM_JAVA_TESTNG_TEST_PACKAGE)
             export TEST_UPLOAD_URL=$(echo $testsUploadedResponse | jq -r '.upload.url')
@@ -56,6 +57,7 @@ jobs:
             echo "Tests Upload ARN: $TEST_UPLOAD_ARN"
             echo "Tests Upload URL: $TEST_UPLOAD_URL"
             curl -T target/zip-with-dependencies.zip "$TEST_UPLOAD_URL"
+            sleep 10
             aws devicefarm get-upload --arn "$TEST_UPLOAD_ARN"
             export testSpecResponse=$(aws devicefarm create-upload --name TraySpec.yml --type APPIUM_JAVA_TESTNG_TEST_SPEC --project-arn "$PROJECT_ARN")
             export TEST_SPEC_URL=$(echo testSpecResponse | jq -r '.upload.url')
@@ -63,17 +65,18 @@ jobs:
             echo "Tests Spec ARN: $TEST_SPEC_ARN"
             echo "Tests Spec URL: $TEST_SPEC_URL"
             curl -T **/test/resources/TraySpec.yml "$TEST_SPEC_URL"
+            sleep 10
             aws devicefarm schedule-run --project-arn "$PROJECT_ARN" --app-arn "$APP_UPLOAD_ARN" --device-pool-arn $DEVICE_POOL_ARN --name MyTestRun --test testSpecArn="$TEST_SPEC_ARN",type=APPIUM_JAVA_TESTNG,testPackageArn="$TEST_UPLOAD_ARN"
-      
-      
 
-      #      - run:
-      #        name: Upload app and tests to Device Farm
-      #        command: |
-      #          PROJECT_ARN="arn:aws:devicefarm:us-west-2:366012283008:project:Jenkins Appium Device Farm"
-      #          DEVICE_POOL_ARN="arn:aws:devicefarm:us-west-2:366012283008:devicepool:Samsung Galaxy Tab S8"
-      #          APP_PATH="**/test/resources/KDS.apk"
-      #          TEST_PACKAGE_PATH="**/target/zip-with-dependencies.zip"
+
+
+  #      - run:
+  #        name: Upload app and tests to Device Farm
+  #        command: |
+  #          PROJECT_ARN="arn:aws:devicefarm:us-west-2:366012283008:project:Jenkins Appium Device Farm"
+  #          DEVICE_POOL_ARN="arn:aws:devicefarm:us-west-2:366012283008:devicepool:Samsung Galaxy Tab S8"
+  #          APP_PATH="**/test/resources/KDS.apk"
+  #          TEST_PACKAGE_PATH="**/target/zip-with-dependencies.zip"
 
 
 #      - run:
